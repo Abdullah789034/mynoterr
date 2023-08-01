@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 const JWT_Sec="I am a boy.";
+const fetchuser = require('../middleware/fetchuser');
 
 
 //Route no 1 : POST: /api/auth/createUser -- tocreateuser
@@ -90,12 +91,12 @@ router.post('/login',[
 
 
 //Route 3: Getting user details : POST/api/auth/getuser --After Login
-router.post('/getuser',[ 
-],async(req,res)=>{
+router.post('/getuser', fetchuser,async(req,res)=>{
 
     try {
-        let userId='todo'
+        let userId=req.user.id;
         const user= await User.findById(userId).select("-password")
+        res.send(user)
         
     } catch (error) {
         console.error(error);

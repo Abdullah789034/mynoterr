@@ -21,9 +21,9 @@ const Navbar = () => {
                             </li>
 
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                        <form className="d-flex">
+                        <Link type="button" className="btn btn-primary mx-2" to='/login'>Login</Link>
+                        <Link type="button" className="btn btn-primary mx-2" to='/signup'>Sign up</Link>
                         </form>
                     </div>
                 </div>

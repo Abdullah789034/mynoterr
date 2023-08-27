@@ -15,9 +15,10 @@ router.post('/createUser',[
     body('email').isEmail(),
     body('password').isLength({min : 5})
 ],async(req,res)=>{
+    let success=false
     const errors=validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array()});
+        return res.status(400).json({ success, errors: errors.array()});
     }
 
     try {
@@ -26,7 +27,8 @@ router.post('/createUser',[
     const secPas= await bcrypt.hash(req.body.password,salt);
     let user= await User.findOne({email: req.body.email}) 
     if(user){
-        return res.status(400).json({ error: "Sorry email already exists."})
+
+        return res.status(400).json({success, error: "Sorry email already exists."})
     }
     user= await User.create({
         name:req.body.name,
@@ -40,7 +42,8 @@ router.post('/createUser',[
         }
     } ;
     const authToken = jwt.sign(data,JWT_Sec);
-    res.json({authToken})
+    success=true
+    res.json({success, authToken})
 } catch (error) {
         console.error(error);
         res.status(500).send("Some Error Occur");
@@ -56,7 +59,7 @@ router.post('/login',[
     body('email').isEmail(),
     body('password','Password cannot be blank').exists()
 ],async(req,res)=>{
-
+    let success=false;
     const errors=validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array()});
@@ -72,7 +75,8 @@ router.post('/login',[
         
     const passCompare= await bcrypt.compare(password,user.password);
     if(!passCompare){
-        return res.status(400).json({error:"Login with correct credentials."})
+        success=false;
+        return res.status(400).json({success:"wrong password",  error:"Login with correct credentials."})
     }
 
     const data={
@@ -81,7 +85,8 @@ router.post('/login',[
         }
     };
     const authToken = jwt.sign(data,JWT_Sec);
-    res.json({authToken})
+    success=true
+    res.json({success, authToken})
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

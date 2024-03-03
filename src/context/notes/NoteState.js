@@ -4,6 +4,7 @@ import { json } from "react-router-dom";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000"
+  const authToken = localStorage.getItem("authToken")
   const notesInitial = []
 
   const [notes, setNotes] = useState(notesInitial);
@@ -14,13 +15,12 @@ const getNotes = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRjOTVhNGM4OGI1ZDZkNGY5YTY3NzUwIn0sImlhdCI6MTY5MDkyNTQ1M30.wm5qy278hHsvrZseMhzACNGZYTpQc8zTtrunHhnB4jc"
+      "auth-token":`${authToken}`
     },
   });
   const json = await response.json()
   console.log(json)
   setNotes(json)
-
 }
 
 
@@ -31,11 +31,11 @@ const getNotes = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRjOTVhNGM4OGI1ZDZkNGY5YTY3NzUwIn0sImlhdCI6MTY5MDkyNTQ1M30.wm5qy278hHsvrZseMhzACNGZYTpQc8zTtrunHhnB4jc"
+        "auth-token":`${authToken}`
       },
       body: JSON.stringify({title,description,tag}), 
     });
-    const json=response.json()
+    const json=await response.json()
     console.log(json);
     const note = json
     setNotes(notes.concat(note))
@@ -49,7 +49,7 @@ const getNotes = async () => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRjOTVhNGM4OGI1ZDZkNGY5YTY3NzUwIn0sImlhdCI6MTY5MDkyNTQ1M30.wm5qy278hHsvrZseMhzACNGZYTpQc8zTtrunHhnB4jc"
+        "auth-token": `${authToken}`
       },
     });
     console.log(response.json())
@@ -65,7 +65,7 @@ const getNotes = async () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRjOTVhNGM4OGI1ZDZkNGY5YTY3NzUwIn0sImlhdCI6MTY5MDkyNTQ1M30.wm5qy278hHsvrZseMhzACNGZYTpQc8zTtrunHhnB4jc"
+        "auth-token": `${authToken}`
       },
       body: JSON.stringify({title,description,tag})
     });

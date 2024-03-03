@@ -17,11 +17,13 @@ const Signup = () => {
         body: JSON.stringify({name , email , password})
       }
       );
-      const json= response.json();
+      const json= await response.json();
       console.log(json)
+      console.log(json.authToken)
       if(json.success){
         console.log("done")
-      history('/')
+        localStorage.setItem("authToken" , json.authToken)        
+      history('/home')
       }
       else{
         alert("error");

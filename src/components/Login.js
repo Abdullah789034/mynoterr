@@ -20,8 +20,8 @@ const Login = () => {
           console.log(json)
           if(json.success){
             //redirect
-            localStorage.setItem('token', json.authtoken);
-            history('/')
+            // localStorage.setItem('token', json.authtoken);
+            history('/home')
           }
           else{
             alert("Invalid")

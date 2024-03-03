@@ -8,7 +8,7 @@ const NotesSchema = new Schema({
     ref: 'user'
 
   },
-  title:{
+  userSayer:{
     type: String,
     required: true
   },
@@ -23,6 +23,9 @@ const NotesSchema = new Schema({
   date:{
     type: String,
     default: Date.now
+  },
+  likes:{
+    type: Number
   }
 
 });
